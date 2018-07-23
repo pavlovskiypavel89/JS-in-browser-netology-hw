@@ -25,7 +25,7 @@ function clickOnGalleryButton() {
   const nextButton = document.getElementById('nextPhoto');
   const prevButton = document.getElementById('prevPhoto');
   const currentImageLink = gallery.src;
-  //const currentImageLink = gallery.src.replace(/http:|https:/, ''); -  строка кода, если ссылки в массиве будут начинаться с //.
+  //const currentImageLink = gallery.src.replace(/http:|https:/, ''); -  this code is used for "gallerySRCs" links starting on "// ..." (without "http:" or "https:").
   const currentImageNumber = gallerySRCs.indexOf(currentImageLink);
   const lastImageNumber = gallerySRCs.length - 1;
 
