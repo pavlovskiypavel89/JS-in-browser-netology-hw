@@ -7,19 +7,13 @@ const sliderSRCs = [
   'https://netology-code.github.io/hj-homeworks/browser/slider/i/airmax-top-view.png', 
   'https://netology-code.github.io/hj-homeworks/browser/slider/i/airmax.png'
 ];
+const lastSlideNum = sliderSRCs.length - 1;
 const delay = 5000;
 
-function slidersCycle(slider, imagesLinks) {
-  imagesLinks.forEach((curntImageLink, curntImageIndex) => {
-    const imageShowDelay = curntImageIndex * delay;
-    setTimeout(() => (slider.src = curntImageLink), imageShowDelay);
-  });
-}
-
-function startSlider(slider, imagesLinks) {
-  const cyclesIntervalDelay = imagesLinks.length * delay;
-  setInterval(() => slidersCycle(slider, imagesLinks), cyclesIntervalDelay);
-  slidersCycle(slider, imagesLinks);
-}
-
-startSlider(slider, sliderSRCs);
+let currentSlideNum = 0;
+slider.src = sliderSRCs[currentSlideNum];
+setInterval(() => {
+  currentSlideNum++;
+  currentSlideNum = (currentSlideNum <= lastSlideNum) ? currentSlideNum : 0;
+  slider.src = sliderSRCs[currentSlideNum];
+}, delay);
