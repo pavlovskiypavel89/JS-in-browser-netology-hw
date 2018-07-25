@@ -20,7 +20,6 @@ function flipOnNext() {
     nextImageNum = (currentImageNum !== lastImageNum) ? nextImageNum : 0;
     gallery.src = gallerySRCs[nextImageNum];
     currentImageNum = nextImageNum;
-    
   }
 }
 
