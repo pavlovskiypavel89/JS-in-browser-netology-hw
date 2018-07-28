@@ -41,17 +41,13 @@ function selectTrack(selectTrackNum) {
 }
 
 function flipOnNextTrack() {
-	let nextTrackNum = currentTrackNum + 1;
-	nextTrackNum = (currentTrackNum !== lastTrackNum) ? nextTrackNum : 0;
-	selectTrack(nextTrackNum);
-	currentTrackNum = nextTrackNum;
+	currentTrackNum = (currentTrackNum !== lastTrackNum) ? (++currentTrackNum) : 0;
+	selectTrack(currentTrackNum);
 }
 
 function flipOnBackTrack() {
-	let backTrackNum = currentTrackNum - 1;
-	backTrackNum = (currentTrackNum > 0) ? backTrackNum : lastTrackNum;
-	selectTrack(backTrackNum);
-	currentTrackNum = backTrackNum;
+	currentTrackNum = (currentTrackNum > 0) ? (--currentTrackNum) : lastTrackNum;
+	selectTrack(currentTrackNum);
 }
 
 
