@@ -11,9 +11,8 @@ const trackList = [
 	{title: 'This is it band', src: 'https://netology-code.github.io/hj-homeworks/html-element-collection/audioplayer/mp3/This%20is%20it%20band.mp3'},
 	{title: 'LA Fusion Jam', src: 'https://netology-code.github.io/hj-homeworks/html-element-collection/audioplayer/mp3/LA%20Fusion%20Jam.mp3'}
 ];
-player.src = trackList[0].src;
 const lastTrackNum = trackList.length - 1;
-let currentTrackNum = trackList.findIndex(track => (track.src === player.src));
+let currentTrackNum = 0; // currentTrackNum = -1, when the first track of the tracklist different from defaulting track from index.html page!
 
 function playCurrentTrack() {
 	if (mediaPlayer.classList.contains('play')) {
@@ -50,7 +49,7 @@ function flipOnNextTrack() {
 
 function flipOnBackTrack() {
 	let backTrackNum = currentTrackNum - 1;
-	backTrackNum = (currentTrackNum !== 0) ? backTrackNum : lastTrackNum;
+	backTrackNum = (currentTrackNum > 0) ? backTrackNum : lastTrackNum;
 	selectTrack(backTrackNum);
 	currentTrackNum = backTrackNum;
 }
