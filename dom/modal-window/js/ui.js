@@ -1,2 +1,2 @@
-// Инициализация функционала модального окна
-initModalUi();
+﻿// Инициализация функционала модального окна
+document.addEventListener('DOMContentLoaded', initModalUi);
