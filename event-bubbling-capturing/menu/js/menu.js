@@ -1,5 +1,3 @@
-'use strict';
-
 function toggleMenu(event) {
   if (this.classList.contains('show')) {
     this.classList.remove('show');
@@ -11,7 +9,9 @@ function toggleMenu(event) {
 }
 
 function openLink(event) {
+  event.preventDefault();
   console.log(this.textContent);
+  event.stopPropagation();
 }
 
 function init(node) {
