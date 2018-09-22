@@ -17,11 +17,11 @@ function initDrawSettings() {
           lightness: 0.5,
           maxThickness: 100,
           minThickness: 5
-        }
-  let hue = 0,
-      thickness = 100,
-      isIncreaseThick = false,
-      isDrawing = false;
+        };
+  drawSettings.hue = drawSettings.minHue;
+  drawSettings.thickness = drawSettings.maxThickness;
+  drawSettings.isIncreaseThick = false;
+  drawSettings.isDrawing = false;
   
   function isMouseBtnPressed(btnCode, pressed) {
     return (pressed & btnCode) === btnCode;
@@ -29,55 +29,48 @@ function initDrawSettings() {
 
   function changeHue() {
     if (event.shiftKey) {
-      hue = hue > drawSettings.minHue ? (--hue) : drawSettings.maxHue;
+      drawSettings.hue = drawSettings.hue > drawSettings.minHue ? (--drawSettings.hue) : drawSettings.maxHue;
     } else {
-      hue = hue < drawSettings.maxHue ? (++hue) : drawSettings.minHue; 
+      drawSettings.hue = drawSettings.hue < drawSettings.maxHue ? (++drawSettings.hue) : drawSettings.minHue; 
     }
   }
   
   function changeThickness() {
-    if (isIncreaseThick) {
-      ++thickness;
-      isIncreaseThick = thickness < drawSettings.maxThickness ? true : false;
+    if (drawSettings.isIncreaseThick) {
+      ++drawSettings.thickness;
+      drawSettings.isIncreaseThick = drawSettings.thickness < drawSettings.maxThickness ? true : false;
     } else {
-      --thickness;
-      isIncreaseThick = thickness > drawSettings.minThickness ? false : true;
-    }
-  }
-
-  function leftBtnPress() {
-    if (isMouseBtnPressed(leftMouseBtnCode, event.buttons)) {
-      changeHue();
-      changeThickness();
-    }
-  }
-
-  function drawOn(context) {
-    const coords = [event.clientX, event.clientY],
-          radius = thickness / 2;
-    
-    function drawCircle() {
-      context.beginPath();
-      context.lineJoin = 'round';
-      context.lineCap = 'round';
-      context.fillStyle = `hsl(${hue}, ${drawSettings.saturation * 100}%, ${drawSettings.lightness * 100}%)`;
-      context.arc(...coords, radius, 0, 2 * Math.PI);
-      context.fill();
-      context.closePath();
-    }
-     
-    if (isMouseBtnPressed(leftMouseBtnCode, event.buttons) && isDrawing) {
-      drawCircle(context);  
+      --drawSettings.thickness;
+      drawSettings.isIncreaseThick = drawSettings.thickness > drawSettings.minThickness ? false : true;
     }
   }
   
-  draw.addEventListener('mousedown', event => leftBtnPress());
+  function drawLine(context, point) {
+      context.beginPath();
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+      context.lineWidth = drawSettings.thickness;
+      context.strokeStyle = `hsl(${drawSettings.hue}, ${drawSettings.saturation * 100}%, ${drawSettings.lightness * 100}%)`;
+      context.moveTo(...point);
+      context.lineTo(...point);
+      context.stroke();
+      context.closePath();
+    }
+
+  function drawOn(context) {
+    if (isMouseBtnPressed(leftMouseBtnCode, event.buttons) && drawSettings.isDrawing) {
+      drawLine(context, [event.offsetX, event.offsetY]);
+      changeThickness();
+      changeHue();
+    }
+  }
+  
   draw.addEventListener('mousedown', event => {
-    isDrawing = true;
+    drawSettings.isDrawing = true;
     drawOn(ctx);
   });
   draw.addEventListener('mousemove', event => drawOn(ctx));
-  draw.addEventListener('mouseleave', () => isDrawing = false);
+  draw.addEventListener('mouseleave', () => drawSettings.isDrawing = false);
   draw.addEventListener('dblclick', () => refreshCanvas());
   window.addEventListener('resize', () => refreshCanvas());
 }
